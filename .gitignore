@@ -1,0 +1,9 @@
+# API Key
+.env
+
+# 数据和模型缓存
+data/
+*.json
+__pycache__/
+*.pyc
+.DS_Store
