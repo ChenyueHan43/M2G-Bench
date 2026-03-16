@@ -1,4 +1,5 @@
 import torch
+import json
 import os
 from torch_geometric.datasets import Planetoid
 from torch_geometric.transforms import NormalizeFeatures
@@ -13,31 +14,45 @@ CORA_CATEGORIES = [
     "Theory"
 ]
 
-def load_cora(root="./data"):
+def load_cora(root="./data", corpus_path=None):
+    # 加载图结构
     dataset = Planetoid(root=root, name="Cora", transform=NormalizeFeatures())
     data = dataset[0]
 
-    CORA_LABEL_DESCRIPTIONS = {
-        0: ("Case-Based Reasoning Paper", "This paper discusses case-based reasoning methods."),
-        1: ("Genetic Algorithms Paper", "This paper studies genetic algorithms and evolutionary computation."),
-        2: ("Neural Networks Paper", "This paper focuses on neural networks and deep learning."),
-        3: ("Probabilistic Methods Paper", "This paper covers probabilistic graphical models and Bayesian methods."),
-        4: ("Reinforcement Learning Paper", "This paper investigates reinforcement learning and decision making."),
-        5: ("Rule Learning Paper", "This paper explores rule learning and inductive logic programming."),
-        6: ("Theory Paper", "This paper presents theoretical analysis and formal proofs.")
-    }
+    # 加载真实文本
+    if corpus_path is None:
+        corpus_path = os.path.expanduser("~/Desktop/GS_DATASET/cora_corpus.json")
+    
+    with open(corpus_path, "r") as f:
+        corpus = json.load(f)
 
+    # 构建节点文本字典
     node_text = {}
     for idx in range(data.num_nodes):
-        label_idx = int(data.y[idx])
-        title, desc = CORA_LABEL_DESCRIPTIONS[label_idx]
-        node_text[str(idx)] = {"title": title, "description": desc}
+        entry = corpus.get(str(idx), {})
+        text = entry.get("text", f"Paper {idx}")
+        # text 格式是 "Title: xxx ; Abstract: xxx"
+        # 拆成 title 和 description
+        if " ; Abstract:" in text:
+            parts = text.split(" ; Abstract:", 1)
+            title = parts[0].replace("Title:", "").strip()
+            description = parts[1].strip()
+        else:
+            title = f"Paper {idx}"
+            description = text
+        
+        node_text[str(idx)] = {
+            "title": title,
+            "description": description
+        }
 
+    # 构建邻居字典
     edge_index = data.edge_index.numpy()
     neighbors = {i: [] for i in range(data.num_nodes)}
     for src, dst in zip(edge_index[0], edge_index[1]):
         neighbors[int(src)].append(int(dst))
 
+    # 测试集 ID
     test_idx = data.test_mask.nonzero(as_tuple=True)[0].tolist()
 
     return data, node_text, neighbors, test_idx, CORA_CATEGORIES
