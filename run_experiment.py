@@ -19,7 +19,7 @@ data, node_text, neighbors, test_idx, categories = load_cora()
 print(f"Loaded: {data.num_nodes} nodes, {len(test_idx)} test nodes")
 
 retriever = GraphAwareRetriever(node_text, neighbors)
-sample = random.sample(test_idx, 50)
+sample = random.sample(test_idx, 2)
 
 def process_node(args):
     i, node_id = args
