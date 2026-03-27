@@ -63,9 +63,9 @@ def process_node(args, node_text, retriever, categories):
                 break
     return {"correct": true_label.lower() in final_pred.lower(), "hops": hop_count}
 
-node_text, neighbors, ppr_neighbors, test_idx, categories = load_gs_dataset("products", gs_dir="/scratch/ch5085/GS_DATASET")
+node_text, neighbors, ppr_neighbors, test_idx, categories = load_gs_dataset("reddits", gs_dir="/scratch/ch5085/GS_DATASET")
 retriever = ProductsRetriever(node_text, neighbors, ppr_neighbors)
-sample = random.sample(test_idx, 500) 
+sample = random.sample(test_idx, min(200, len(test_idx))) 
 
 results = []
 with ThreadPoolExecutor(max_workers=20) as exc:
@@ -79,6 +79,6 @@ print(f"\n=== Final Reproduction: SR: {sr:.1f}% | Avg Hops: {avg_h:.2f} ===")
 
 # 保存结果
 import json as _json
-with open("/scratch/ch5085/graphsearch/results_products_qwen32b_n500.json", "w") as f:
+with open("/scratch/ch5085/graphsearch/results_reddits_qwen32b.json", "w") as f:
     _json.dump(results, f, indent=2)
-print("Saved → results_products_qwen32b_n500.json")
+print("Saved → results_reddits_qwen32b.json")
