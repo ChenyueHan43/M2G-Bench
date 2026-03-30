@@ -13,37 +13,28 @@ conda activate graphsearch
 pip install torch torch-geometric ogb sentence-transformers openai python-dotenv tqdm
 ```
 
-## Data
-
-Download GS_DATASET from the GraphSearch authors (contact: Qiaoyu Tan's group, NYU Shanghai).
-Place it at `~/Desktop/GS_DATASET/` or update the path in the data loader.
-
-## Run
-```bash
-cp .env.example .env          # add your DeepSeek API key
-python run_experiment.py      # Cora dataset
-python run_products.py        # Amazon-Products dataset
-python run_all_datasets.py    # PubMed + Reddit datasets
-```
-
 ## Results (Setting A: Text-only Baseline)
 
-| Dataset | Domain | DeepSeek-chat | Paper (Qwen2.5-32B) | Gap |
-|---------|--------|--------------|---------------------|-----|
-| Amazon-Products | E-commerce | 70.0% (n=100) | 71.7% | -1.7% |
-| PubMed | Citation | 84.0% (n=50) | 89.8% | -5.8% |
-| Reddit | Social | **76.0%** (n=50) | 67.4% | **+8.6%** |
-| Cora | Citation | 16.0% (n=50) | 65.9% | -49.9% |
+### Qwen2.5-32B (same model as paper)
 
-**Notes:**
-- Cora gap is due to model capability difference (DeepSeek-chat vs Qwen2.5-32B).
-  Academic paper classification is more sensitive to model scale.
-- Reddit and Products results are competitive with or exceed the paper's numbers.
-- Formal experiments with Qwen2.5-32B pending HPC access.
+| Dataset | Ours | Paper | Gap |
+|---------|------|-------|-----|
+| Amazon-Products | 67.8-69.4% (n=500) | 71.7% | -2.3% |
+| PubMed | 81.5% (n=200) | 89.8% | -8.3% |
+| Reddit | 64.0% (n=200) | 67.4% | -3.4% |
+
+### DeepSeek-chat (alternative model)
+
+| Dataset | Ours | Paper | Gap |
+|---------|------|-------|-----|
+| Amazon-Products | 70.0% (n=100) | 71.7% | -1.7% |
+| PubMed | 84.0% (n=50) | 89.8% | -5.8% |
+| Reddit | 76.0% (n=50) | 67.4% | +8.6% |
+| Cora | 16.0% (n=50) | 65.9% | -49.9% |
 
 ## Project Roadmap
 
-- [x] Setting A: Text-only baseline (this repo)
+- [x] Setting A: Text-only baseline
 - [ ] Setting B: Text + Image Captions (GPT-4o-mini)
 - [ ] Setting C: Text + CLIP Visual Embeddings
 
