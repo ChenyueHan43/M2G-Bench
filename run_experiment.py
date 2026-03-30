@@ -10,8 +10,8 @@ from agent import run_graphsearch
 load_dotenv()
 
 client = OpenAI(
-    api_key=os.getenv("DEEPSEEK_API_KEY"),
-    base_url="https://api.deepseek.com"
+    api_key="EMPTY",
+    base_url="http://gh118:8000/v1"
 )
 
 print("Loading Cora dataset...")
@@ -30,8 +30,8 @@ def process_node(args):
         retriever=retriever,
         categories=categories,
         client=client,
-        model="deepseek-chat",
-        alpha=1.0
+        model="/scratch/ch5085/models/Qwen2.5-32B-Instruct",
+        alpha=0.0
     )
     predicted = result["answer"] or "N/A"
     is_correct = true_label.lower() in predicted.lower()

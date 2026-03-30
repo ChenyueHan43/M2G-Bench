@@ -19,6 +19,7 @@ Output rules:
 - Reason inside <think>...</think>
 - Output ONLY the category name inside <answer>...</answer>
 - Must be exactly one of the 7 categories above"""
+
 def run_graphsearch(anchor_id, retriever, categories, client,
                     model="deepseek-chat", max_steps=8, alpha=1.0):
     
@@ -85,5 +86,5 @@ Please predict the category of the above product."""
         else:
             # 模型既没有给答案也没有搜索，强制结束
             break
-    
+            
     return {"answer": None, "hops": hop_count, "messages": messages}

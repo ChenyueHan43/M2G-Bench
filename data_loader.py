@@ -21,7 +21,7 @@ def load_cora(root="./data", corpus_path=None):
 
     # 加载真实文本
     if corpus_path is None:
-        corpus_path = os.path.expanduser("~/Desktop/GS_DATASET/cora_corpus.json")
+        corpus_path = os.path.expanduser("/scratch/ch5085/GS_DATASET/cora_corpus.json")
     
     with open(corpus_path, "r") as f:
         corpus = json.load(f)

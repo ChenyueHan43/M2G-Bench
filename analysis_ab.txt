@@ -1,0 +1,171 @@
+=== Setting A vs B Analysis ===
+Both correct  : 142
+Both wrong    : 49
+Caption helped: 15
+Caption hurt  : 14
+
+=== Caption helped (B correct, A wrong) ===
+Node 19616: true=Automotive
+  A predicted: Tools & Home Improvement
+  B predicted: Automotive
+  Caption: This product image showcases the Innova 3568 Tachometer, a sleek and functional ...
+
+Node 32660: true=Sports & Outdoors
+  A predicted: Automotive
+  B predicted: Sports & Outdoors
+  Caption: This product image showcases a vibrant pink dumbbell with a glossy finish, desig...
+
+Node 24897: true=Movies & TV
+  A predicted: Books
+  B predicted: Movies & TV
+  Caption: This product image is a vibrant and colorful promotional poster for the animated...
+
+Node 30548: true=Automotive
+  A predicted: Home & Kitchen
+  B predicted: Automotive
+  Caption: This product image showcases a car window decal with the phrase "Silly Boys Truc...
+
+Node 30332: true=CDs & Vinyl
+  A predicted: Books
+  B predicted: CDs & Vinyl
+  Caption: This product image features a vibrant and colorful design for an album cover by ...
+
+Node 37969: true=CDs & Vinyl
+  A predicted: Books
+  B predicted: CDs & Vinyl
+  Caption: This product image is the cover art for a music album titled "Still Melting..." ...
+
+Node 37721: true=CDs & Vinyl
+  A predicted: Movies & TV
+  B predicted: CDs & Vinyl
+  Caption: This product image features a close-up of a richly detailed, sunburst-finished h...
+
+Node 6993: true=Automotive
+  A predicted: Sports & Outdoors
+  B predicted: Automotive
+  Caption: This product image showcases a sleek, black and transparent motorcycle tank bag ...
+
+Node 15437: true=Health & Personal Care
+  A predicted: Beauty
+  B predicted: Health & Personal Care
+  Caption: The image showcases a Veet Spray On Cream Hair Remover bottle designed for legs ...
+
+Node 1837: true=Office Products
+  A predicted: Office & School Supplies
+  B predicted: Office Products
+  Caption: This product image showcases a roll of Duck HP260 High Performance Packaging Tap...
+
+Node 51444: true=CDs & Vinyl
+  A predicted: Books
+  B predicted: CDs & Vinyl
+  Caption: This product image features an album cover for Jennifer Warnes' "The Well." The ...
+
+Node 32686: true=Automotive
+  A predicted: Home Improvement
+  B predicted: Automotive
+  Caption: The image showcases six identical cans of Ate Original Bremsflüssigkeit (brake f...
+
+Node 37775: true=CDs & Vinyl
+  A predicted: Digital Music
+  B predicted: CDs & Vinyl
+  Caption: This product image features the album cover for "World Outside My Window" by Gle...
+
+Node 29111: true=Arts, Crafts & Sewing
+  A predicted: Amazon Fashion
+  B predicted: Arts, Crafts & Sewing
+  Caption: This product image showcases a set of ten metallic buckles arranged in a neat, s...
+
+Node 34424: true=Sports & Outdoors
+  A predicted: Collectibles & Fine Art
+  B predicted: Sports & Outdoors
+  Caption: The image shows a coiled olive green fabric strap, likely made of durable materi...
+
+=== Caption hurt (A correct, B wrong) ===
+Node 33979: true=Home & Kitchen
+  A predicted: Home & Kitchen
+  B predicted: Appliances
+  Caption: This product image showcases a sleek, modern countertop rotisserie and BBQ oven ...
+
+Node 48447: true=Toys & Games
+  A predicted: Toys & Games
+  B predicted: Collectibles & Fine Art
+  Caption: This product image showcases a small, teardrop-shaped pendant with a vibrant blu...
+
+Node 27784: true=Electronics
+  A predicted: All Electronics
+  B predicted: Cell Phones & Accessories
+  Caption: This product image showcases a Samsung tablet encased in a rugged, black protect...
+
+Node 14564: true=Office Products
+  A predicted: Office Products
+  B predicted: Office & School Supplies
+  Caption: This product image showcases a set of remanufactured ink cartridges by MYTONER, ...
+
+Node 48842: true=Home & Kitchen
+  A predicted: Home & Kitchen
+  B predicted: Kitchen & Dining
+  Caption: This product image showcases a sleek KitchenAid bottle opener with a vibrant red...
+
+Node 30578: true=Sports & Outdoors
+  A predicted: Sports & Outdoors
+  B predicted: Amazon Fashion
+  Caption: This product image showcases a stylish handbag designed with the Pittsburgh Stee...
+
+Node 48740: true=Home & Kitchen
+  A predicted: Home & Kitchen
+  B predicted: Appliances
+  Caption: This product image showcases a Vitamix blender, a high-performance kitchen appli...
+
+Node 31416: true=Beauty
+  A predicted: Beauty
+  B predicted: Health & Personal Care
+  Caption: The image showcases a large, amber-colored bottle of Malibu Tan Hemp Golden Glow...
+
+Node 44794: true=Patio, Lawn & Garden
+  A predicted: Patio, Lawn & Garden
+  B predicted: Home & Kitchen
+  Caption: This product image showcases a sleek, modern stainless steel drawer unit with a ...
+
+Node 52928: true=Books
+  A predicted: Books
+  B predicted: Movies & TV
+  Caption: This product image is a movie poster for "Hearts in Atlantis," starring Anthony ...
+
+Node 27118: true=Books
+  A predicted: Books
+  B predicted: Musical Instruments
+  Caption: The image depicts an album cover for the band "Nayode" with the title "Gentle Me...
+
+Node 34976: true=Office Products
+  A predicted: Office Products
+  B predicted: Office & School Supplies
+  Caption: This product image showcases a stack of white paper sheets, each featuring neatl...
+
+Node 1846: true=Office Products
+  A predicted: Office Products
+  B predicted: Office & School Supplies
+  Caption: This product image showcases a sleek, black mesh business card holder with a mod...
+
+Node 14729: true=Sports & Outdoors
+  A predicted: Sports & Outdoors
+  B predicted: Amazon Fashion
+  Caption: This product image showcases a black and red zip-up hoodie with a hood, featurin...
+
+=== Which categories benefit most from captions? ===
+Helped by category:
+  CDs & Vinyl: +5
+  Automotive: +4
+  Sports & Outdoors: +2
+  Movies & TV: +1
+  Health & Personal Care: +1
+  Office Products: +1
+  Arts, Crafts & Sewing: +1
+Hurt by category:
+  Home & Kitchen: -3
+  Office Products: -3
+  Sports & Outdoors: -2
+  Books: -2
+  Toys & Games: -1
+  Electronics: -1
+  Beauty: -1
+  Patio, Lawn & Garden: -1

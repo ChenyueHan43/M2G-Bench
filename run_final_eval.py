@@ -20,19 +20,15 @@ def robust_parse_answer(text):
     return match.group(1).strip() if match else None
 
 SYSTEM_PROMPT = """You are a graph-based reasoning assistant. 
-To classify the product, you MUST follow this pattern:
-1. <think> Analyze the target. </think>
+1. <think> Analyze the target product. </think>
 2. <search> mode=local, hop=1, query=keywords </search>
-3. <think> Combine target info with neighbor info. </think>
-4. <answer> Category </answer>
+3. <answer> Category </answer>
 
 Example:
-User: Target: "Casio MS-80B Calculator"
-Assistant: <think>This is a calculator. I need to check its co-purchase items to confirm.</think>
-<search> mode=local, hop=1, query=Casio calculator </search>
-User: <information> Neighbor 1: HP Financial Calculator; Neighbor 2: Inkjet Paper </information>
-Assistant: <think>The neighbors are office and financial tools. The category is Office Products.</think>
-<answer> Office Products </answer>"""
+User: Target: "Casio Calculator"
+Assistant: <think>Need neighbors.</think> <search>query=Casio</search>
+User: <information>Neighbor: Paper</information>
+Assistant: <answer>Office Products</answer>"""
 
 def process_node(args, node_text, retriever, categories):
     i, node_id = args
@@ -43,31 +39,25 @@ def process_node(args, node_text, retriever, categories):
     
     hop_count, final_pred = 0, "N/A"
     for step in range(3):
-        resp = client.chat.completions.create(model=MODEL, messages=messages, temperature=0.1) # 低温保证稳定
+        resp = client.chat.completions.create(model=MODEL, messages=messages, temperature=0.1)
         txt = resp.choices[0].message.content
         messages.append({"role": "assistant", "content": txt})
-        
         s_info = robust_parse_search(txt)
         if s_info and hop_count == 0:
             hop_count += 1
             res = retriever.retrieve(anchor_id=node_id, query_text=s_info['query'], mode='local', hop=1)
-            info_msg = "\n".join([f"Neighbor: {c[:150]}" for _, c in res]) or "No neighbors."
+            info_msg = "\n".join([f"NB: {c[:100]}" for _, c in res]) or "None"
             messages.append({"role": "user", "content": f"<information>\n{info_msg}\n</information>"})
         else:
             ans = robust_parse_answer(txt)
             if ans: 
                 final_pred = ans
                 break
-            elif hop_count >= 1: # 如果搜过了但没给标准answer标签，尝试兜底解析
-                final_pred = txt.split('\n')[-1]
-                break
-    return {"correct": true_label.lower() in final_pred.lower(), "hops": hop_count}
+    return {"node_id": node_id, "true_label": true_label, "predicted": final_pred, "correct": true_label.lower() in final_pred.lower(), "hops": hop_count}
 
-from data_loader import load_cora
-data, node_text, neighbors, test_idx, categories = load_cora(root="/scratch/ch5085/data")
-ppr_neighbors = {str(k): [] for k in neighbors}
+node_text, neighbors, ppr_neighbors, test_idx, categories = load_gs_dataset("products", gs_dir="/scratch/ch5085/GS_DATASET")
 retriever = ProductsRetriever(node_text, neighbors, ppr_neighbors)
-sample = random.sample(test_idx, min(200, len(test_idx))) 
+sample = random.sample(test_idx, 500) 
 
 results = []
 with ThreadPoolExecutor(max_workers=20) as exc:
@@ -75,13 +65,8 @@ with ThreadPoolExecutor(max_workers=20) as exc:
     for f in tqdm(as_completed(futures), total=500):
         results.append(f.result())
 
-sr = sum(r["correct"] for r in results) / len(results) * 100
-avg_h = sum(r["hops"] for r in results) / len(results)
-print(f"\n=== Final Reproduction: SR: {sr:.1f}% | Avg Hops: {avg_h:.2f} ===")
+# 存储到独立的文件
+with open('/scratch/ch5085/graphsearch/final_success_500.json', 'w') as f:
+    json.dump(results, f)
 
-# 保存结果
-import json as _json
-with open("/scratch/ch5085/graphsearch/results_cora_qwen32b_v2.json", "w") as f:
-    _json.dump(results, f, indent=2)
-print("Saved → results_cora_qwen32b_v2.json")
-# 注：cora 测试集从 PyG 获取
+print(f"\nDone! Saved to final_success_500.json")
